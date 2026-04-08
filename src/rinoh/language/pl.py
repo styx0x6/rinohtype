@@ -9,12 +9,12 @@
 from .cls import Language
 
 
-PL = Language('pl', 'Polski',
+PL = Language('pl', 'polski',
     figure='Ilustracja',
     table='Tabela',
-    contents='Spis Treści',
-    list_of_figures='Spis Ilustracji',
-    list_of_tables='Spis Tabel',
+    contents='Spis treści',
+    list_of_figures='Spis ilustracji',
+    list_of_tables='Spis tabel',
     chapter='Rozdział',
     index='Skorowidz',
 
