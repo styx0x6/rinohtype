@@ -29,6 +29,10 @@ CS = Language('cs', 'Česky',
     tip='Tip',
     warning='Varování',
     seealso='Viz také',
+
+    # indexes
+    index_see='viz',
+    index_seealso='viz také',
 )
 
 

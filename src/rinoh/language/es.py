@@ -29,4 +29,8 @@ ES = Language('es', 'Spanish',
     tip='Consejo',
     warning='Precaución',
     seealso='Vea también',
+
+    # indexes
+    index_see='véase',
+    index_seealso='véase también',
 )

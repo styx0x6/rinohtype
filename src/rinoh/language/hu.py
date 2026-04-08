@@ -27,4 +27,8 @@ HU = Language('hu', 'Hungarian',
     tip='Tipp',
     warning='Figyelmeztetés',
     seealso='Lásd még',
+
+    # indexes
+    index_see='lásd',
+    index_seealso='lásd még',
 )

@@ -29,4 +29,8 @@ FR = Language('fr', 'Français',
     tip='Astuce',
     warning='Avertissement',
     seealso='Voir aussi',
+
+    # indexes
+    index_see='voir',
+    index_seealso='voir aussi',
 )
