@@ -23,7 +23,7 @@ from ...annotation import HyperLink
 from ...flowable import DummyFlowable, LabeledFlowable, StaticGroupedFlowables
 from ...glossary import GlossaryTerm
 from ...image import Image
-from ...index import IndexTerm, IndexTarget, InlineIndexTarget
+from ...index import IndexTerm, IndexSee, IndexSeeAlso, IndexTarget, InlineIndexTarget
 from ...paragraph import Paragraph
 from ...reference import Reference
 from ...structure import Admonition, AdmonitionFlowables, DefinitionList, List
@@ -97,6 +97,12 @@ class Index(DocutilsBodyNode, DocutilsInlineNode):
                 yield IndexTerm(one, two + ' ' + three)
                 yield IndexTerm(two, three + ', ' + one)
                 yield IndexTerm(three, one + ' ' + two)
+            elif type == 'see':
+                term, reference = (n.strip() for n in entry_name.split(';'))
+                yield IndexSee(term, reference)
+            elif type == 'seealso':
+                term, reference = (n.strip() for n in entry_name.split(';'))
+                yield IndexSeeAlso(term, reference)
             else:
                 raise NotImplementedError
 

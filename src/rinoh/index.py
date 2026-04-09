@@ -18,7 +18,7 @@ from .util import intersperse
 
 
 __all__ = ['IndexSection', 'Index', 'IndexStyle', 'IndexLabel', 'IndexTerm',
-           'InlineIndexTarget', 'IndexTarget']
+           'IndexSee', 'IndexSeeAlso', 'InlineIndexTarget', 'IndexTarget']
 
 
 class IndexSection(Section):
@@ -49,7 +49,8 @@ class Index(GroupedFlowables):
         initials = self.get_style('initials', container)
         def hande_level(index_entries, level=1):
             top_level = level == 1
-            entries = sorted((name for name in index_entries if name),
+            entries = sorted((name for name in index_entries
+                              if name and not name.startswith('_index_see')),
                              key=lambda s: (s.lower(), s))
             last_section = None
             for entry in entries:
@@ -61,7 +62,12 @@ class Index(GroupedFlowables):
                     last_section = section
                 target_ids = [target.get_id(document)
                               for term, target in subentries.get(None, ())]
-                yield IndexEntry(term, level, target_ids)
+                see_references = [('index_see', reference) for reference
+                                  in subentries.get('_index_see', ())]
+                seealso_references = [('index_seealso', reference) for reference
+                                      in subentries.get('_index_seealso', ())]
+                yield IndexEntry(term, level, target_ids,
+                                 see_references + seealso_references)
                 for paragraph in hande_level(subentries, level=level + 1):
                     yield paragraph
 
@@ -76,7 +82,7 @@ class IndexLabel(Paragraph):
 
 
 class IndexEntry(Paragraph):
-    def __init__(self, content, level, target_ids=None,
+    def __init__(self, content, level, target_ids=None, see_references=(),
                  id=None, style=None, parent=None):
         if target_ids:
             refs = intersperse((Reference(id, 'page')
@@ -84,6 +90,12 @@ class IndexEntry(Paragraph):
             entry_text = content + ', ' + MixedStyledText(refs)
         else:
             entry_text = content
+        if see_references:
+            refs = intersperse((MixedStyledText((StringField(see_label), ' ',
+                                                reference))
+                                for see_label, reference in see_references),
+                               '; ')
+            entry_text = entry_text + ', ' + MixedStyledText(refs)
         super().__init__(entry_text, id=id, style=style, parent=parent)
         self.index_level = level
 
@@ -91,6 +103,22 @@ class IndexEntry(Paragraph):
 class IndexTerm(tuple):
     def __new__(cls, *levels):
         return super().__new__(cls, levels)
+
+    def __repr__(self):
+        return type(self).__name__ + super().__repr__()
+
+
+class IndexSee(tuple):
+    def __new__(cls, term, reference):
+        return super().__new__(cls, (term, reference))
+
+    def __repr__(self):
+        return type(self).__name__ + super().__repr__()
+
+
+class IndexSeeAlso(tuple):
+    def __new__(cls, term, reference):
+        return super().__new__(cls, (term, reference))
 
     def __repr__(self):
         return type(self).__name__ + super().__repr__()
@@ -105,6 +133,16 @@ class IndexTargetBase(Styled):
         super().prepare(flowable_target)
         index_entries = flowable_target.document.index_entries
         for index_term in self.index_terms:
+            if isinstance(index_term, IndexSee):
+                term, reference = index_term
+                _, subentries = index_entries.setdefault(term, (term, {}))
+                subentries.setdefault('_index_see', []).append(reference)
+                continue
+            if isinstance(index_term, IndexSeeAlso):
+                term, reference = index_term
+                _, subentries = index_entries.setdefault(term, (term, {}))
+                subentries.setdefault('_index_seealso', []).append(reference)
+                continue
             level_entries = index_entries
             for term in index_term:
                 term_str = (term.to_string(flowable_target)
