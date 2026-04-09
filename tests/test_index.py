@@ -6,7 +6,7 @@ class DummyDocument(object):
         self.ids_by_element = {}
         self.index_entries = {}
 
-    def register_element(self):
+    def register_element(self, _element):
         return None
 
 class DummyFlowableTarget(object):
@@ -43,9 +43,9 @@ def test_target_index_entries():
         'single_term4': ('single_term4', {None: [(IndexTerm('single_term4'), index_target)]}),
         'pair_term1': ('pair_term1', {None: [(IndexTerm('pair_term1', 'pair_term2'), index_target)]}),
         'pair_term2': ('pair_term2', {None: [(IndexTerm('pair_term2', 'pair_term1'), index_target)]}),
-        'module': ('module', {None: [(IndexTerm('module', 'search path'), index_target)]}),
-        'search': ('search', {None: [(IndexTerm('search path', 'module'), index_target)]}),
-        'path': ('path', {None: [(IndexTerm('path module search'), index_target)]}),
+        'module': ('module', {None: [(IndexTerm('module', 'search' + ' ' + 'path'), index_target)]}),
+        'search': ('search', {None: [(IndexTerm('search', 'path' + ', ' + 'module'), index_target)]}),
+        'path': ('path', {None: [(IndexTerm('path', 'module' + ' ' + 'search'), index_target)]}),
         'term': ('term', {'_index_see': ['synonym_term']}),
         'term2': ('term2', {'_index_seealso': ['synonym_term2']}),
     }
