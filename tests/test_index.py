@@ -37,15 +37,43 @@ def test_target_index_entries():
     index_target.prepare(flowable_target)
 
     assert document.index_entries == {
-        'single_term1': ('single_term1', {None: [(IndexTerm('single_term1'), index_target)]}),
-        'single_term2': ('single_term2', {None: [(IndexTerm('single_term2'), index_target)]}),
-        'single_term3': ('single_term3', {None: [(IndexTerm('single_term3'), index_target)]}),
+        'single_term1': ('single_term1', {
+            'single_term2': ('single_term2', {
+                'single_term3': ('single_term3', {
+                    None: [(IndexTerm('single_term1', 'single_term2',
+                                       'single_term3'), index_target)]
+                })
+            })
+        }),
         'single_term4': ('single_term4', {None: [(IndexTerm('single_term4'), index_target)]}),
-        'pair_term1': ('pair_term1', {None: [(IndexTerm('pair_term1', 'pair_term2'), index_target)]}),
-        'pair_term2': ('pair_term2', {None: [(IndexTerm('pair_term2', 'pair_term1'), index_target)]}),
-        'module': ('module', {None: [(IndexTerm('module', 'search' + ' ' + 'path'), index_target)]}),
-        'search': ('search', {None: [(IndexTerm('search', 'path' + ', ' + 'module'), index_target)]}),
-        'path': ('path', {None: [(IndexTerm('path', 'module' + ' ' + 'search'), index_target)]}),
+        'pair_term1': ('pair_term1', {
+            'pair_term2': ('pair_term2', {
+                None: [(IndexTerm('pair_term1', 'pair_term2'), index_target)]
+            })
+        }),
+        'pair_term2': ('pair_term2', {
+            'pair_term1': ('pair_term1', {
+                None: [(IndexTerm('pair_term2', 'pair_term1'), index_target)]
+            })
+        }),
+        'module': ('module', {
+            'search path': ('search path', {
+                None: [(IndexTerm('module', 'search' + ' ' + 'path'),
+                        index_target)]
+            })
+        }),
+        'search': ('search', {
+            'path, module': ('path, module', {
+                None: [(IndexTerm('search', 'path' + ', ' + 'module'),
+                        index_target)]
+            })
+        }),
+        'path': ('path', {
+            'module search': ('module search', {
+                None: [(IndexTerm('path', 'module' + ' ' + 'search'),
+                        index_target)]
+            })
+        }),
         'term': ('term', {'_index_see': ['synonym_term']}),
         'term2': ('term2', {'_index_seealso': ['synonym_term2']}),
     }
