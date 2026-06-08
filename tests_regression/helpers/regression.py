@@ -28,6 +28,7 @@ from rinoh.dimension import CM
 from rinoh.frontend.commonmark import CommonMarkReader
 from rinoh.frontend.rst import ReStructuredTextReader, from_doctree
 from rinoh.frontend.sphinx import nodes    # load Sphinx docutils nodes
+from rinoh.math import MATH_ENABLED
 from rinoh.structure import TableOfContentsSection
 from rinoh.template import (DocumentTemplate, TemplateConfiguration,
                             ContentsPartTemplate, BodyPageTemplate,
@@ -40,6 +41,11 @@ __all__ = ['render_doctree', 'render_md_file', 'render_rst_file',
 
 
 TEST_DIR = Path(__file__).parent.parent.absolute()
+TIMEOUT = 30    # default timeout for tests that specify no timeout in the docinfo
+
+
+if not MATH_ENABLED:
+    raise RuntimeError('Math support is required to run the regression tests.')
 
 
 class MinimalTemplate(DocumentTemplate):
@@ -160,11 +166,13 @@ def render_doctree(doctree, out_dir, out_filename, reference_path,
     verify_output(out_filename, output_dir, reference_path)
 
 
-def verify_output(out_filename, output_dir, reference_path):
-    pdf_filename = '{}.pdf'.format(out_filename)
+def verify_output(test_name, output_dir, reference_path, alt=None):
+    pdf_filename = f'{test_name}.pdf'
+    alt_suffix = f'_{alt}' if alt else ''
+    ref_pdf_filename = f'{test_name}{alt_suffix}.pdf'
     (ref_anchors, ref_links, ref_superfluous_anchors,
      ref_badlinks, ref_badoutlinelinks, ref_urls, ref_badurls, ref_outlines) = \
-        check_pdf_links(reference_path / pdf_filename)
+        check_pdf_links(reference_path / ref_pdf_filename)
     with in_directory(output_dir):
         (anchors, links, superfluous_anchors,
          badlinks, badoutlinelinks, urls, badurls, outlines) = \
@@ -175,7 +183,7 @@ def verify_output(out_filename, output_dir, reference_path):
         pytest.assume(diff_outlines(ref_outlines, outlines),
                       "Outlines mismatch!          (ref | new)\n"
                       + format_outlines(ref_outlines, outlines))
-        if not diff_pdf(reference_path / pdf_filename, pdf_filename):
+        if not diff_pdf(reference_path / ref_pdf_filename, pdf_filename):
             pytest.fail('The generated PDF is different from the reference '
                         'PDF.\nGenerated files can be found in {}'
                         .format(output_dir))

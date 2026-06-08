@@ -8,7 +8,10 @@ import nox
 import nox_poetry
 
 sys.path.append('.')
-from noxutil import get_versions, version_to_tuple
+
+from packaging.version import Version
+
+from noxutil import get_versions
 
 
 CURRENT_PYTHON = (('pypy' if hasattr(sys, 'pypy_version_info') else '')
@@ -20,8 +23,8 @@ nox.options.sessions = ['check', 'check_docs',
                         f'regression-{CURRENT_PYTHON}(wheel)']
 
 
-PYTHONS = ['3.10', '3.11', '3.12', '3.13', '3.14', '3.15']
-PYTHONS += ['pypy3'] if os.getenv('CI') else ['pypy3.11']
+PYTHONS = ['3.10', '3.11', '3.12', '3.13', '3.14', '3.15',
+           'pypy3' if os.getenv('CI') else 'pypy3.11']
 
 DEPENDENCIES = ['pytest', 'pytest-xdist', 'pytest-cov', 'coverage', 'Sphinx']
 if os.getenv('GITHUB_SHA'):
@@ -49,10 +52,11 @@ def check(session):
 
 @nox_poetry.session
 def check_docs(session):
-    _install(session, dependencies=['doc8', 'sphinx-immaterial',
+    _install(session, dependencies=['rstcheck', 'sphinx-immaterial',
                                     'sphinxcontrib-autoprogram'])
-    session.run('doc8', 'README.rst', 'CHANGES.rst', 'CONTRIBUTING.rst',
-                'DEVELOPING.rst', 'doc')
+    session.run('rstcheck', 'README.rst', 'CHANGES.rst', 'CONTRIBUTING.rst',
+                'DEVELOPING.rst')
+    session.run('rstcheck', '--recursive', 'doc')
     session.run('python', 'doc/build.py', 'doctest')
 
 
@@ -108,26 +112,26 @@ def _install(session, docutils=None, sphinx=None, dist='wheel', extras=[],
     deps = []
     if docutils:
         deps.append(f"docutils=={docutils}")
-        docutils_version = version_to_tuple(docutils)
-        if docutils_version < (0, 20):
+        docutils_version = Version(docutils)
+        if docutils_version < Version('0.20'):
             assert sphinx is None
             sphinx = '5.3.0'
     if sphinx:
         deps.append(f"sphinx=={sphinx}")
-        sphinx_version = version_to_tuple(sphinx)
-        if sphinx_version < (4, ):
+        sphinx_version = Version(sphinx)
+        if sphinx_version < Version('4'):
             # https://github.com/sphinx-doc/sphinx/issues/10291
             deps.append("jinja2<3.1")
-        elif sphinx_version < (6, ):
+        elif sphinx_version < Version('6'):
             deps.append("myst-parser==0.18.1")
-        if sphinx_version <= (6, 2):
+        if sphinx_version <= Version('6.2'):
             try:
                 python_version = tuple(int(v) for v in session.python.split('.'))
             except AttributeError:
                 python_version = sys.version_info[:3]
             if python_version >= (3, 13):
                 deps.append("standard-imghdr==3.13.0")
-        if sphinx_version < (5, ):
+        if sphinx_version < Version('5'):
             # https://github.com/sphinx-doc/sphinx/issues/11890
             deps.append("alabaster==0.7.13")
             deps.append("sphinxcontrib-applehelp==1.0.4")
@@ -157,7 +161,8 @@ def _regression(session, docutils=None, sphinx=None, dist='wheel',
                 ignore_deprecation_warnings=False):
     _install(session, docutils=docutils, sphinx=sphinx, dist=dist, extras=['math'],
              dependencies=[*DEPENDENCIES, 'defusedxml', # for Sphinx>=7.3
-                           'pytest-assume', 'pytest-console-scripts'])
+                           'pytest-assume', 'pytest-console-scripts',
+                           'pytest-timeout'])
     mark_expr = ['-m', 'with_sphinx'] if sphinx else ['-m', 'not longrunning']
     if dist == 'sdist':
         session.env['WITH_COVERAGE'] = '0'

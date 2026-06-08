@@ -40,8 +40,31 @@ env:
   poetry_export_version: '1.9.0'
   nox_cmd: 'nox --verbose --error-on-missing-interpreters --session'
 jobs:
+  check-skip:
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.check-skip-marker.outputs.skip }}
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+    - name: Get tag
+      uses: olegtarasov/get-tag@v2.1.4
+    - name: Check for [skip] marker
+      id: check-skip-marker
+      run: |
+        ANNOTATION=$(git tag -l '${{ env.GIT_TAG_NAME }}' --format='%(contents)' 2>/dev/null || echo "")
+        if echo "$ANNOTATION" | grep -qF '[skip]'; then
+          echo "skip=true" >> $GITHUB_OUTPUT
+        else
+          echo "skip=false" >> $GITHUB_OUTPUT
+        fi
+
   check:
     name: ${{ matrix.env.NOXENV }}
+    needs: check-skip
+    if: ${{ !cancelled() && (needs.check-skip.result != 'success' || needs.check-skip.outputs.skip != 'true') }}
     runs-on: ${{ matrix.os }}-latest
     strategy:
       fail-fast: false
@@ -53,11 +76,11 @@ jobs:
           - NOXENV: build_docs
     env: ${{ matrix.env }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
       with:
         submodules: true
     - name: Get tag
-      uses: olegtarasov/get-tag@v2.1
+      uses: olegtarasov/get-tag@v2.1.4
     - name: Install Python ${{ env.current_python }}
       uses: actions/setup-python@v4
       with:
@@ -115,7 +138,7 @@ jobs:
     if: needs.check.outputs.docs-target != ''
     runs-on: Ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
       with:
         ref: gh-pages
     - name: Write versions to JSON file
@@ -149,6 +172,8 @@ jobs:
 
   unit:
     name: ${{ matrix.os }} / ${{ matrix.python-version }} unit tests${{ matrix.name }}
+    needs: check-skip
+    if: ${{ !cancelled() && (needs.check-skip.result != 'success' || needs.check-skip.outputs.skip != 'true') }}
     strategy:
       fail-fast: false
       matrix:
@@ -164,7 +189,7 @@ jobs:
       NOXENV: ${{ matrix.noxenv }}
       WITH_COVERAGE: ${{ matrix.cov }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
     - name: Install Python ${{ env.current_python }}
       uses: actions/setup-python@v4
       with:
@@ -194,6 +219,8 @@ jobs:
 
   regression:
     name: ${{ matrix.os }} / ${{ matrix.python-version }} regression tests${{ matrix.name }}
+    needs: check-skip
+    if: ${{ !cancelled() && (needs.check-skip.result != 'success' || needs.check-skip.outputs.skip != 'true') }}
     strategy:
       fail-fast: false
       matrix:
@@ -216,7 +243,7 @@ jobs:
       NOXENV: ${{ matrix.noxenv }}
       WITH_COVERAGE: ${{ matrix.cov }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
     - name: Install Python ${{ env.current_python }}
       uses: actions/setup-python@v4
       with:
@@ -266,16 +293,20 @@ jobs:
     - name: Install tools required by the regression tests (Linux)
       if: startsWith(runner.os, 'Linux')
       run: |
+        sudo apt-get update
+        sudo apt-get install -y libjpeg-dev zlib1g-dev  # required for building Pillow wheel
         brew install mupdf-tools imagemagick
     - name: Install tools required by the regression tests (macOS)
       if: startsWith(runner.os, 'macOS')
       run: |
         brew install mupdf-tools imagemagick graphviz cairo libffi
         brew link cairo
+        echo "DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib:${DYLD_FALLBACK_LIBRARY_PATH}" >> $GITHUB_ENV
     - name: Install tools required by the regression tests (Windows)
       if: startsWith(runner.os, 'Windows')
       run: |
         choco install mupdf --version=1.26.0
+        Add-Content $env:GITHUB_PATH "C:\Program Files\Unity Hub\resources\app.asar.unpacked\node_modules\canvas\build\Release"   # cairo.dll
 
     - name: Run Nox
       run: ${{ env.nox_cmd }} ${{ env.NOXENV }} -- -s
@@ -300,14 +331,27 @@ jobs:
 
   check-tag:
     needs: [check, unit, regression]
-    if: startsWith(github.ref, 'refs/tags/')
+    if: ${{ always() && startsWith(github.ref, 'refs/tags/') }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
       with:
         submodules: true
+        fetch-depth: 0
     - name: Get tag
-      uses: olegtarasov/get-tag@v2.1
+      uses: olegtarasov/get-tag@v2.1.4
+    - name: Verify tests passed or force flag is set
+      run: |
+        if [[ "${{ needs.check.result }}" != "success" || \
+              "${{ needs.unit.result }}" != "success" || \
+              "${{ needs.regression.result }}" != "success" ]]; then
+          ANNOTATION=$(git tag -l '${{ env.GIT_TAG_NAME }}' --format='%(contents)' 2>/dev/null || echo "")
+          if ! echo "$ANNOTATION" | grep -qF '[force]' && ! echo "$ANNOTATION" | grep -qF '[skip]'; then
+            echo "Tests failed and no [force] or [skip] marker found in tag annotation. Aborting."
+            exit 1
+          fi
+          echo "Override marker detected in tag annotation. Proceeding despite test failures."
+        fi
     - name: Install Python ${{ env.current_python }}
       uses: actions/setup-python@v4
       with:
@@ -353,10 +397,10 @@ jobs:
 
   publish-develop:
     needs: check-tag
-    if: needs.check-tag.outputs.develop == 'true'
+    if: ${{ !cancelled() && needs.check-tag.result == 'success' && needs.check-tag.outputs.develop == 'true' }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
       with:
         submodules: true
     - name: Install Python ${{ env.current_python }}
@@ -378,10 +422,10 @@ jobs:
 
   publish-release:
     needs: check-tag
-    if: needs.check-tag.outputs.stable == 'true'
+    if: ${{ !cancelled() && needs.check-tag.result == 'success' && needs.check-tag.outputs.stable == 'true' }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
       with:
         submodules: true
     - name: Install Python ${{ env.current_python }}

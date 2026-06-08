@@ -8,15 +8,15 @@
 #### ChainedContainer('column1')
   StaticGroupedFlowables()
     DocumentTree()   index.rst   <document>
-      Paragraph('Inline Markup roles:')   index.rst:4   <paragraph>
+      Paragraph('Inline Markup roles:')   index.rst:5   <paragraph>
            > (0,0,0,0,2) body [Sphinx] > default
           MixedStyledText('Inline Markup roles:')
             MixedStyledText('Inline Markup roles:')
               SingleStyledText('Inline Markup roles:')
-      DefinitionList(style='field list')   index.rst:6   <field_list>
+      DefinitionList(style='field list')   index.rst:7   <field_list>
            > (0,0,1,0,2) field list [Sphinx] > DEFAULT
              (0,0,0,0,2) definition list [Sphinx] > DEFAULT
-        LabeledFlowable()   index.rst:6   <field>
+        LabeledFlowable()   index.rst:7   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('abbr', style='field name')
@@ -26,7 +26,7 @@
                 MixedStyledText('abbr')   index.rst   <field_name>
                   SingleStyledText('abbr')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('LIFOlast-in, first-out; FIFO; KI...')   index.rst:6   <paragraph>
+            Paragraph('LIFOlast-in, first-out; FIFO; KI...')   index.rst:7   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('LIFOlast-in, first-out; FIFO; KI...')
                   MixedStyledText('LIFOlast-in, first-out; FIFO; KI...')
@@ -70,7 +70,7 @@
                     GlossaryTerm('LIFO', style='abbreviation')   <abbreviation>
                       MixedStyledText('LIFO')
                         SingleStyledText('LIFO')
-        LabeledFlowable()   index.rst:8   <field>
+        LabeledFlowable()   index.rst:9   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('command', style='field name')
@@ -80,14 +80,14 @@
                 MixedStyledText('command')   index.rst   <field_name>
                   SingleStyledText('command')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('rm')   index.rst:8   <paragraph>
+            Paragraph('rm')   index.rst:9   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('rm')
                   MixedStyledText('rm')
                     MixedStyledText('rm', style='command')   <literal_strong classes='command'>
                          > (0,0,1,0,1) command [Sphinx] > literal strong
                       SingleStyledText('rm')
-        LabeledFlowable()   index.rst:9   <field>
+        LabeledFlowable()   index.rst:10   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('dfn', style='field name')
@@ -97,14 +97,14 @@
                 MixedStyledText('dfn')   index.rst   <field_name>
                   SingleStyledText('dfn')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('definition')   index.rst:9   <paragraph>
+            Paragraph('definition')   index.rst:10   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('definition')
                   MixedStyledText('definition')
                     MixedStyledText('definition', style='definition')   <emphasis classes='dfn'>
                          x (0,0,1,0,1) inline definition
                       SingleStyledText('definition')
-        LabeledFlowable()   index.rst:10   <field>
+        LabeledFlowable()   index.rst:11   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('file', style='field name')
@@ -114,7 +114,7 @@
                 MixedStyledText('file')   index.rst   <field_name>
                   SingleStyledText('file')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('README.txt, Makefile')   index.rst:10   <paragraph>
+            Paragraph('README.txt, Makefile')   index.rst:11   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('README.txt, Makefile')
                   MixedStyledText('README.txt, Makefile')
@@ -125,7 +125,7 @@
                     MixedStyledText('Makefile', style='file path')   <literal classes='file'>
                          > (0,0,1,0,1) file path [Sphinx] > monospaced
                       SingleStyledText('Makefile')
-        LabeledFlowable()   index.rst:11   <field>
+        LabeledFlowable()   index.rst:12   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('guilabel', style='field name')
@@ -135,7 +135,7 @@
                 MixedStyledText('guilabel')   index.rst   <field_name>
                   SingleStyledText('guilabel')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('Cancel')   index.rst:11   <paragraph>
+            Paragraph('Cancel')   index.rst:12   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('Cancel')
                   MixedStyledText('Cancel')
@@ -145,7 +145,7 @@
                            > (0,0,2,0,2) UI control accelerator [Sphinx] > DEFAULT
                         SingleStyledText('C')
                       SingleStyledText('ancel')
-        LabeledFlowable()   index.rst:12   <field>
+        LabeledFlowable()   index.rst:13   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('kbd', style='field name')
@@ -155,13 +155,17 @@
                 MixedStyledText('kbd')   index.rst   <field_name>
                   SingleStyledText('kbd')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('Control-x, page up, +')   index.rst:12   <paragraph>
+            Paragraph('Control-x, page up, +')   index.rst:13   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('Control-x, page up, +')
                   MixedStyledText('Control-x, page up, +')
-                    MixedStyledText('Control-x', style='keystrokes')   <literal classes='kbd'>
+                    MixedStyledText('Control', style='keystrokes')   <literal classes='kbd'>
                          > (0,0,1,0,1) keystrokes [Sphinx] > monospaced
-                      SingleStyledText('Control-x')
+                      SingleStyledText('Control')
+                    SingleStyledText('-')
+                    MixedStyledText('x', style='keystrokes')   <literal classes='kbd'>
+                         > (0,0,1,0,1) keystrokes [Sphinx] > monospaced
+                      SingleStyledText('x')
                     SingleStyledText(', ')
                     MixedStyledText('page up', style='keystrokes')   <literal classes='kbd'>
                          > (0,0,1,0,1) keystrokes [Sphinx] > monospaced
@@ -170,7 +174,7 @@
                     MixedStyledText('+', style='keystrokes')   <literal classes='kbd'>
                          > (0,0,1,0,1) keystrokes [Sphinx] > monospaced
                       SingleStyledText('+')
-        LabeledFlowable()   index.rst:13   <field>
+        LabeledFlowable()   index.rst:14   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('mailheader', style='field name')
@@ -180,14 +184,14 @@
                 MixedStyledText('mailheader')   index.rst   <field_name>
                   SingleStyledText('mailheader')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('Content-Type')   index.rst:13   <paragraph>
+            Paragraph('Content-Type')   index.rst:14   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('Content-Type')
                   MixedStyledText('Content-Type')
                     MixedStyledText('Content-Type', style='mail header')   <literal_emphasis classes='mailheader'>
                          > (0,0,1,0,1) mail header [Sphinx] > literal emphasis
                       SingleStyledText('Content-Type')
-        LabeledFlowable()   index.rst:14   <field>
+        LabeledFlowable()   index.rst:15   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('makevar', style='field name')
@@ -197,14 +201,14 @@
                 MixedStyledText('makevar')   index.rst   <field_name>
                   SingleStyledText('makevar')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('var')   index.rst:14   <paragraph>
+            Paragraph('var')   index.rst:15   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('var')
                   MixedStyledText('var')
                     MixedStyledText('var', style='make variable')   <literal_strong classes='makevar'>
                          > (0,0,1,0,1) make variable [Sphinx] > literal strong
                       SingleStyledText('var')
-        LabeledFlowable()   index.rst:15   <field>
+        LabeledFlowable()   index.rst:16   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('manpage', style='field name')
@@ -214,14 +218,14 @@
                 MixedStyledText('manpage')   index.rst   <field_name>
                   SingleStyledText('manpage')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('ls(1)')   index.rst:15   <paragraph>
+            Paragraph('ls(1)')   index.rst:16   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('ls(1)')
                   MixedStyledText('ls(1)')
                     MixedStyledText('ls(1)', style='man page')   <manpage classes='manpage'>
                          > (0,0,1,0,1) man page [Sphinx] > literal emphasis
                       SingleStyledText('ls(1)')
-        LabeledFlowable()   index.rst:16   <field>
+        LabeledFlowable()   index.rst:17   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('menuselection', style='field name')
@@ -231,14 +235,14 @@
                 MixedStyledText('menuselection')   index.rst   <field_name>
                   SingleStyledText('menuselection')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('Menu ‣ Item')   index.rst:16   <paragraph>
+            Paragraph('Menu ‣ Item')   index.rst:17   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('Menu ‣ Item')
                   MixedStyledText('Menu ‣ Item')
                     MixedStyledText('Menu ‣ Item', style='menu cascade')   <inline classes='menuselection'>
                          > (0,0,1,0,1) menu cascade [Sphinx] > DEFAULT
                       SingleStyledText('Menu ‣ Item')
-        LabeledFlowable()   index.rst:17   <field>
+        LabeledFlowable()   index.rst:18   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('mimetype', style='field name')
@@ -248,14 +252,14 @@
                 MixedStyledText('mimetype')   index.rst   <field_name>
                   SingleStyledText('mimetype')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('png')   index.rst:17   <paragraph>
+            Paragraph('png')   index.rst:18   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('png')
                   MixedStyledText('png')
                     MixedStyledText('png', style='MIME type')   <literal_emphasis classes='mimetype'>
                          > (0,0,1,0,1) MIME type [Sphinx] > literal emphasis
                       SingleStyledText('png')
-        LabeledFlowable()   index.rst:18   <field>
+        LabeledFlowable()   index.rst:19   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('newsgroup', style='field name')
@@ -265,14 +269,14 @@
                 MixedStyledText('newsgroup')   index.rst   <field_name>
                   SingleStyledText('newsgroup')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('comp.lang.python')   index.rst:18   <paragraph>
+            Paragraph('comp.lang.python')   index.rst:19   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('comp.lang.python')
                   MixedStyledText('comp.lang.python')
                     MixedStyledText('comp.lang.python', style='newsgroup')   <literal_emphasis classes='newsgroup'>
                          > (0,0,1,0,1) newsgroup [Sphinx] > literal emphasis
                       SingleStyledText('comp.lang.python')
-        LabeledFlowable()   index.rst:19   <field>
+        LabeledFlowable()   index.rst:20   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('program', style='field name')
@@ -282,14 +286,14 @@
                 MixedStyledText('program')   index.rst   <field_name>
                   SingleStyledText('program')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('rinoh')   index.rst:19   <paragraph>
+            Paragraph('rinoh')   index.rst:20   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('rinoh')
                   MixedStyledText('rinoh')
                     MixedStyledText('rinoh', style='program')   <literal_strong classes='program'>
                          > (0,0,1,0,1) program [Sphinx] > literal strong
                       SingleStyledText('rinoh')
-        LabeledFlowable()   index.rst:20   <field>
+        LabeledFlowable()   index.rst:21   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('regexp', style='field name')
@@ -299,14 +303,14 @@
                 MixedStyledText('regexp')   index.rst   <field_name>
                   SingleStyledText('regexp')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('.*')   index.rst:20   <paragraph>
+            Paragraph('.*')   index.rst:21   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('.*')
                   MixedStyledText('.*')
                     MixedStyledText('.*', style='regular expression')   <literal classes='regexp'>
                          > (0,0,1,0,1) regular expression [Sphinx] > monospaced
                       SingleStyledText('.*')
-        LabeledFlowable()   index.rst:21   <field>
+        LabeledFlowable()   index.rst:22   <field>
              > (0,0,1,0,4) field list item [Sphinx] > DEFAULT
                (0,0,0,0,4) definition list item [Sphinx] > DEFAULT
           Paragraph('samp', style='field name')
@@ -316,7 +320,7 @@
                 MixedStyledText('samp')   index.rst   <field_name>
                   SingleStyledText('samp')
           StaticGroupedFlowables()   <field_body>
-            Paragraph('print 1+variable')   index.rst:21   <paragraph>
+            Paragraph('print 1+variable')   index.rst:22   <paragraph>
                  > (0,0,0,0,2) body [Sphinx] > default
                 MixedStyledText('print 1+variable')
                   MixedStyledText('print 1+variable')

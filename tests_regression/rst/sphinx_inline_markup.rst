@@ -1,3 +1,4 @@
+:sphinx-minversion: 8.2
 :warnings:
     No definition given for 'FIFO' glossary term
 

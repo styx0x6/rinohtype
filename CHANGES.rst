@@ -14,8 +14,20 @@ Release History
     .. __: https://semver.org/
 
 
-Release 0.5.6 (in development)
+Release 0.5.7 (in development)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New Features:
+
+
+Changed:
+
+
+Fixed:
+
+
+Release 0.5.6 (2026-05-15)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 New Features:
 
@@ -63,14 +75,16 @@ Changed:
   require adjustments to the admonition styles in custom stylesheets. Also,
   the admonition style definitions in the 'sphinx' stylesheet needs more work.
 * The default for BodyPageTemplate.chapter_title_height is now ``None``, which
-  creates a DownExpaningContainer for the chapter title flowables instead of
-  one with a fixed height.  
+  creates a DownExpandingContainer for the chapter title flowables instead of
+  one with a fixed height.
 * Add support for Python 3.13, 3.14 and 3.15
 * Support for Python 3.8 and 3.9 was dropped (end-of-life)
 * Improve error message for unsupported nodes (#421)
 
 Fixed:
 
+* Incorrect kerning/character spacing for (OTF) fonts where unitsPerEm != 1000
+  (for example, the DejaVu fonts)
 * Paragraph duplication occurring when the final word of a paragraph is
   hyphenated across a page boundary (#443)
 * Handling of hyperlinks with missing characters
@@ -300,7 +314,7 @@ Fixed:
   page and thus moved to the next
 
 Part of the work included in this release was kindly sponsored by `Joby
-Aviation <https://www.jobyaviation.com>`_.
+Aviation`_.
 
 
 Release 0.5.2 (2021-02-24)
@@ -332,7 +346,7 @@ Fixed:
 * Incorrect/useless warnings that popped up with release 0.5.1.
 
 Part of the work included in this release was kindly sponsored by `Joby
-Aviation <https://www.jobyaviation.com>`_.
+Aviation`_.
 
 
 Release 0.5.1 (2021-02-19)
@@ -354,7 +368,7 @@ Fixed:
 * Table column widths entries now also accept fractions
 
 Part of the work included in this release was kindly sponsored by `Joby
-Aviation <https://www.jobyaviation.com>`_.
+Aviation`_.
 
 
 Release 0.5.0 (2021-02-03)

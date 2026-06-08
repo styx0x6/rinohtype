@@ -1,4 +1,4 @@
-<document rinoh_regression_test="True" source="/Users/brechtm/Code/rinohtype/tests_regression/rst/index.rst">
+<document rinoh_regression_test="True" source="/Users/brechtm/Code/rinohtype/tests_regression/rst/index.rst" translation_progress="{'total': 0, 'translated': 0}">
     <paragraph>
         Inline Markup roles:
     <field_list>
@@ -57,7 +57,10 @@
             <field_body>
                 <paragraph>
                     <literal classes="kbd">
-                        Control-x
+                        Control
+                    -
+                    <literal classes="kbd">
+                        x
                     , 
                     <literal classes="kbd">
                         page up
